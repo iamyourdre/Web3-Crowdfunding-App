@@ -1,3 +1,4 @@
+import Navbar from '../components/Navbar';
 import React, { useEffect } from 'react';
 
 const Base = ({ children }) => {
@@ -7,6 +8,7 @@ const Base = ({ children }) => {
 
   return (
     <div className="bg-background min-h-screen text-foreground">
+      <Navbar />
       {children}
     </div>
   );
