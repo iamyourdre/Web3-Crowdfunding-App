@@ -31,9 +31,9 @@ const Navbar = () => {
       <div className="hidden pl-5 md:flex flex-1 gap-3">
         {menuItems.map((item, index) => (
           <Link key={index} to={item.to}>
-            <Button className="mx-2" size="small" variant="primary">
+            <span className="mx-2 text-sm font-medium">
               {item.label}
-            </Button>
+            </span>
           </Link>
         ))}
       </div>

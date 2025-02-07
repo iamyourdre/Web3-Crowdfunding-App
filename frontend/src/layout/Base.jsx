@@ -7,7 +7,7 @@ const Base = ({ children }) => {
   }, []);
 
   return (
-    <div className="bg-background min-h-screen text-foreground">
+    <div className="min-h-screen">
       <Navbar />
       {children}
     </div>

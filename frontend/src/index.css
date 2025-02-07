@@ -65,9 +65,17 @@ body {
   }
 }
 
+* {
+  @apply bg-background text-foreground
+}
+
 .box {
   @apply px-6 w-full;
 }
 .box-m {
   @apply mx-6;
+}
+
+.border {
+  @apply border-border;
 }
