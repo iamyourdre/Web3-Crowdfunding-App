@@ -21,12 +21,12 @@ const menuItems = [
 
 const Navbar = () => {
   return (
-    <div className='flex w-full bg-background box py-4 border-b border-border justify-start items-center'>
-      <div className="flex-1 md:flex-none flex gap-3">
-        <h1 className='font-[1000] text-lg'>DAPP</h1>
-        <div className="md:hidden flex-1 justify-items-end">
+    <div className='flex w-full box py-4 justify-start items-center '>
+      <div className="flex-1 md:flex-none flex gap-3 ">
+        <div className="md:hidden">
           <Dropdown/>
         </div>
+        <h1 className='font-[1000] text-lg flex-1 md:flex-none'>DAPP</h1>
       </div>
       <div className="hidden pl-5 md:flex flex-1 gap-3">
         {menuItems.map((item, index) => (
@@ -46,11 +46,11 @@ const Navbar = () => {
 
 export function Dropdown() {
   return (
-    <DropdownMenu>
+    <DropdownMenu >
       <DropdownMenuTrigger asChild>
         <Menu size={27}/>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 border-border box-m mt-2">
+      <DropdownMenuContent className="w-52 border-border box-m mt-5">
         <DropdownMenuLabel>
           <span className="text-muted-foreground">Welcome!</span>
         </DropdownMenuLabel>

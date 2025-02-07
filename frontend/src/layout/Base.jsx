@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/toaster';
 import Navbar from '../components/Navbar';
 import React, { useEffect } from 'react';
 
@@ -7,9 +8,10 @@ const Base = ({ children }) => {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen color-primary">
       <Navbar />
       {children}
+      <Toaster />
     </div>
   );
 }
