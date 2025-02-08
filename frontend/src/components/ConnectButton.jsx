@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,18 +12,25 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import useWallet from '../hooks/useWallet';
+import { Link2 } from 'lucide-react';
+import Loading from './Loading';
 
 const ConnectButton = () => {
-  const { connectMetamask, wallet } = useWallet();
+  const { connectMetamask, disconnectWallet, loading, wallet, etherBalance } = useWallet();
+  useEffect(() => {
+    if (wallet) {
+      console.log(wallet);
+    }
+  }, [wallet]);
 
   return (
     <>
-      {wallet ? <Connected /> : <NotConnected connectMetamask={connectMetamask} />}
+      {wallet ? <Connected wallet={{wallet, etherBalance, disconnectWallet}} /> : <NotConnected wallet={{connectMetamask, loading}} />}
     </>
   );
 };
 
-const NotConnected = ({ connectMetamask }) => {
+const NotConnected = ({ wallet }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -38,7 +45,8 @@ const NotConnected = ({ connectMetamask }) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <div className="flex flex-col gap-2 w-full">
-            <Button className="justify-center" onClick={connectMetamask}>
+            <Button className="justify-center" onClick={wallet.connectMetamask}>
+              {wallet.loading && <Loading />}
               <span>Open Metamask</span>
             </Button>
             <AlertDialogCancel>
@@ -51,11 +59,42 @@ const NotConnected = ({ connectMetamask }) => {
   );
 };
 
-const Connected = () => {
+const Connected = ({wallet}) => {
   return (
-    <div>
-      <Button>Wallet Connected</Button>
-    </div>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="ghost" className="flex items-center">
+          <img
+            src="https://ui-avatars.com/api/?name=0x&color=fff&background=FF4D00&rounded=true"
+            alt="avatar" className="w-5 h-5 rounded-full"
+          />
+          {wallet.wallet.slice(0,5)+"..."+wallet.wallet.slice(-4)}
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent className="color-primary">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="flex items-center gap-2">
+            <Link2 className='text-teal-500' /> Wallet Connected
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            Address: <b>{wallet.wallet ? wallet.wallet : '-'}</b>
+          </AlertDialogDescription>
+          <AlertDialogDescription>
+            Balance: <b>{wallet.etherBalance ? wallet.etherBalance.slice(0,6) : '0.00'} ETH</b>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <div className="grid grid-cols-2 gap-2 w-full">
+            <Button className="justify-center" variant="destructive" onClick={wallet.disconnectWallet}>
+              Disconnect
+            </Button>
+            <AlertDialogCancel>
+              Close
+            </AlertDialogCancel>
+          </div>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

@@ -42,18 +42,6 @@ const useWallet = () => {
         });
       } finally {
         setLoading(false);
-        if(!error) {
-          toast({
-            title: "Wallet Connected",
-            description: `Connected to wallet: ${accounts[0]}`,
-          });
-        } else {
-          toast({
-            title: "Uh oh!",
-            description: "Unknown error occurred.",
-            variant: "destructive",
-          });
-        }
       }
     } else {
       const errorMessage = 'You need to install MetaMask to connect to this app';
