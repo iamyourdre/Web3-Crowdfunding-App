@@ -76,22 +76,18 @@ const Connected = ({wallet}) => {
           <AlertDialogTitle className="flex items-center gap-2">
             <Link2 className='text-teal-500' /> Wallet Connected
           </AlertDialogTitle>
-          <AlertDialogDescription>
-            Address: <b>{wallet.wallet ? wallet.wallet : '-'}</b>
-          </AlertDialogDescription>
-          <AlertDialogDescription>
-            Balance: <b>{wallet.etherBalance ? wallet.etherBalance.slice(0,6) : '0.00'} ETH</b>
+          <AlertDialogDescription className="text-left">
+            <p>Address: <b>{wallet.wallet ? wallet.wallet : '-'}</b></p>
+            <p>Balance: <b>{wallet.etherBalance ? wallet.etherBalance.slice(0,6) : '0.00'} ETH</b></p>
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <div className="grid grid-cols-2 gap-2 w-full">
-            <Button className="justify-center" variant="destructive" onClick={wallet.disconnectWallet}>
-              Disconnect
-            </Button>
-            <AlertDialogCancel>
-              Close
-            </AlertDialogCancel>
-          </div>
+        <AlertDialogFooter className="grid grid-cols-2 gap-2 w-full">
+          <Button variant="destructive" onClick={wallet.disconnectWallet} className="mt-2">
+            Disconnect
+          </Button>
+          <AlertDialogCancel>
+            Close
+          </AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
