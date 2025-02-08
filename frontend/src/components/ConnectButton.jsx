@@ -71,7 +71,7 @@ const Connected = ({wallet}) => {
           {wallet.wallet.slice(0,5)+"..."+wallet.wallet.slice(-4)}
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="color-primary">
+      <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <Link2 className='text-teal-500' /> Wallet Connected

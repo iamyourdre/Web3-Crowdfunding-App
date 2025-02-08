@@ -21,7 +21,7 @@ const menuItems = [
 
 const Navbar = () => {
   return (
-    <div className='flex w-full box py-4 justify-start items-center '>
+    <div className='flex w-full box py-4 justify-start items-center fixed z-10'>
       <div className="flex-1 md:flex-none flex gap-3 ">
         <div className="md:hidden">
           <Dropdown/>
