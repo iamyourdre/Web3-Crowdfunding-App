@@ -63,7 +63,7 @@ const Connected = ({wallet}) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="ghost" className="flex items-center">
+        <Button variant="ghost" className="flex items-center ">
           <img
             src="https://ui-avatars.com/api/?name=0x&color=fff&background=FF4D00&rounded=true"
             alt="avatar" className="w-5 h-5 rounded-full"
@@ -71,7 +71,7 @@ const Connected = ({wallet}) => {
           {wallet.wallet.slice(0,5)+"..."+wallet.wallet.slice(-4)}
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="color-primary">
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <Link2 className='text-teal-500' /> Wallet Connected
@@ -82,7 +82,7 @@ const Connected = ({wallet}) => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="grid grid-cols-2 gap-2 w-full">
-          <Button variant="destructive" onClick={wallet.disconnectWallet} className="mt-2">
+          <Button variant="destructive" onClick={wallet.disconnectWallet} className="mt-2 sm:mt-0">
             Disconnect
           </Button>
           <AlertDialogCancel>

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import Web3 from 'web3';
 import { WalletContext } from '../contexts/WalletContext';
 import { useToast } from './use-toast';
+import { CircleCheck, Link2Off } from 'lucide-react';
 
 const useWallet = () => {
   const { wallet, setWallet } = useContext(WalletContext);
@@ -27,7 +28,11 @@ const useWallet = () => {
         const etherBalance = await web3.eth.getBalance(accounts[0]);
         setEtherBalance(web3.utils.fromWei(etherBalance, 'ether'));
         toast({
-          title: "Wallet Connected",
+          title: (
+            <div className="flex items-center gap-1">
+              <CircleCheck className="text-teal-500" /> Wallet Connected
+            </div>
+          ),
           description: `Connected to wallet: ${accounts[0]}`,
         });
       } catch (error) {
@@ -58,7 +63,11 @@ const useWallet = () => {
     setEtherBalance(null);
     setAutoConnect(false);
     toast({
-      title: "Wallet Disconnected",
+      title: (
+        <div className="flex items-center gap-1">
+          <Link2Off className="text-red-500" /> Wallet Disconnected
+        </div>
+      ),
       description: "You have disconnected your wallet.",
     });
   };
