@@ -1,28 +1,9 @@
 import React, { useEffect } from 'react';
 import useCrowdFunding from '../hooks/useCrowdFunding';
 
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination"
-
 import { CampaignCard } from './CampaignCard';
 import Loading from './Loading';
+import { Button } from './ui/button';
 
 const CampaignList = () => {
   const { loading, campaigns } = useCrowdFunding();
@@ -40,24 +21,9 @@ const CampaignList = () => {
           <CampaignCard key={index} campaign={campaign} />
         ))}
       </div>
-
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-
+      <div className="mt-5">
+        <Button onClick={() => {}}>Load More</Button>
+      </div>
     </>
   )
 };
