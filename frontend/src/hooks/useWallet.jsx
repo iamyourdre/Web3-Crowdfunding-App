@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import Web3 from 'web3';
-import { WalletContext } from '../contexts/WalletContext';
+import { WalletContext } from '../contexts/WalletProvider';
 import { useToast } from './use-toast';
 import { CircleCheck, Link2Off } from 'lucide-react';
 

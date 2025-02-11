@@ -7,7 +7,9 @@ const Campaign = () => {
       <div className="flex-1 flex flex-col gap-5">
         <div>
           <h1 className="text-3xl font-bold">Campaign List</h1>
-          <p className="text-sm text-gray-500 mt-2">A list of last 10 campaign.</p>
+          <p className="text-sm text-gray-500 mt-2">
+            Let's start contributing to the campaigns.
+          </p>
         </div>
         <CampaignList />
       </div>

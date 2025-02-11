@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react';
+import useCrowdFunding from '../hooks/useCrowdFunding';
 
 import {
   Table,
@@ -9,31 +10,56 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
 
+import { CampaignCard } from './CampaignCard';
+import Loading from './Loading';
 
 const CampaignList = () => {
-  return (
-    <Table className="w-full">
-      <TableCaption>A list of your recent invoices.</TableCaption>
-      <TableHeader>
-        <TableRow className="border-border">
-          <TableHead className="w-[100px]">Invoice</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow>
-          <TableCell className="font-medium">INV001</TableCell>
-          <TableCell>Paid</TableCell>
-          <TableCell>Credit Card</TableCell>
-          <TableCell className="text-right">$250.00</TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
-  )
-}
+  const { loading, campaigns } = useCrowdFunding();
 
-export default CampaignList
+  if (loading) {
+    return <div>
+      <Loading />&nbsp; Loading Campaign
+    </div>;
+  }
+
+  return (
+    <>
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
+        {campaigns.map((campaign, index) => (
+          <CampaignCard key={index} campaign={campaign} />
+        ))}
+      </div>
+
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href="#" />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+
+    </>
+  )
+};
+
+export default CampaignList;
