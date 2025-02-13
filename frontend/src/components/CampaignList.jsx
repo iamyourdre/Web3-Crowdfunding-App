@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import useCrowdFunding from '../hooks/useCrowdFunding';
 
 import { CampaignCard } from './CampaignCard';
@@ -7,6 +7,7 @@ import { Button } from './ui/button';
 
 const CampaignList = () => {
   const { loading, campaigns } = useCrowdFunding();
+  const [visibleCount, setVisibleCount] = useState(3);
 
   if (loading) {
     return <div>
@@ -14,16 +15,21 @@ const CampaignList = () => {
     </div>;
   }
 
+  const loadMore = () => {
+    setVisibleCount(prevCount => Math.min(prevCount + 3, campaigns.length));
+  };
   return (
     <>
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
-        {campaigns.map((campaign, index) => (
+      <div className="grid lg:grid-cols-3 grid-cols-1 gap-4">
+        {campaigns.slice(0, visibleCount).map((campaign, index) => (
           <CampaignCard key={index} campaign={campaign} />
         ))}
       </div>
-      <div className="mt-5">
-        <Button onClick={() => {}}>Load More</Button>
-      </div>
+      {visibleCount < campaigns.length && (
+        <div className="mt-5">
+          <Button onClick={loadMore} variant="outline" size="lg">Load More</Button>
+        </div>
+      )}
     </>
   )
 };
