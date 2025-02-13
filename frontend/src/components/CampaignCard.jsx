@@ -13,7 +13,7 @@ import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
 import { CircleDollarSign } from 'lucide-react';
 
-export const CampaignCard = ({campaign}) => {
+export const CampaignCard = ({campaign, className, to}) => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
@@ -41,8 +41,8 @@ export const CampaignCard = ({campaign}) => {
   }
 
   return (
-    <Link to={`/campaign`}>
-      <Card className="flex flex-col h-full">
+    <Link to={to || '#'}>
+      <Card className={`flex flex-col ${className}`}>
         <img src={campaign.imageURI} alt={campaign.title} className="w-full h-48 rounded-t-xl object-cover" />
         <CardHeader className="pb-3 h-full">
           <CardTitle className="text-xl">{campaign.title}</CardTitle>

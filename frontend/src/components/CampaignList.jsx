@@ -22,7 +22,7 @@ const CampaignList = () => {
     <>
       <div className="grid lg:grid-cols-3 grid-cols-1 gap-4">
         {campaigns.slice(0, visibleCount).map((campaign, index) => (
-          <CampaignCard key={index} campaign={campaign} />
+          <CampaignCard key={index} campaign={campaign} className={'h-full'} />
         ))}
       </div>
       {visibleCount < campaigns.length && (

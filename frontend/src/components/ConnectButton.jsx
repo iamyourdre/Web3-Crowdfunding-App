@@ -34,7 +34,7 @@ const NotConnected = ({ wallet }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button>Connect</Button>
+        <Button>Connect Wallet</Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="color-primary">
         <AlertDialogHeader>

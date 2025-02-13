@@ -1,4 +1,4 @@
-import { House, Menu, PlusCircle, Eye, Info, DollarSign, Trash2, Clock, CircleDollarSign, BadgeDollarSign, HandCoins } from 'lucide-react'
+import { House, Menu, PlusCircle, Eye, Info, DollarSign, Trash2, Clock, CircleDollarSign, BadgeDollarSign, HandCoins, PlusCircleIcon } from 'lucide-react'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -21,7 +21,7 @@ const menuItems = [
 
 const Navbar = () => {
   return (
-    <div className='flex w-full box py-4 justify-start items-center fixed z-10 bg-background/10 backdrop-blur-md'>
+    <div className='flex w-full box py-4 justify-start items-center fixed bg-background/10 backdrop-blur-md'>
       <div className="flex-1 md:flex-none flex gap-3 ">
         <div className="md:hidden">
           <Dropdown/>
@@ -37,9 +37,11 @@ const Navbar = () => {
           </Link>
         ))}
       </div>
-      <div className="">
-        <ConnectButton />
-      </div>
+      <Link className="" to="/campaign/create">
+        <Button variant="outline" className="">
+          <PlusCircleIcon /> Create Campaign
+        </Button>
+      </Link>
     </div>
   )
 }
@@ -57,11 +59,17 @@ export function Dropdown() {
         <DropdownMenuSeparator />
         {menuItems.map((item, index) => (
           <Link key={index} to={item.to}>
-            <DropdownMenuItem>
+            <DropdownMenuItem className="my-1.5">
               {item.icon} {item.label}
             </DropdownMenuItem>
           </Link>
         ))}
+        {/* <DropdownMenuSeparator /> */}
+        <Link to={'/new-campaign'}>
+          <DropdownMenuItem className="w-full justify-start bg-zinc-50 text-background">
+            <PlusCircleIcon /> Create Campaign
+          </DropdownMenuItem>
+        </Link>
       </DropdownMenuContent>
     </DropdownMenu>
   )
