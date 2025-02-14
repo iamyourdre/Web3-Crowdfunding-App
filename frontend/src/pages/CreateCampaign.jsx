@@ -57,8 +57,8 @@ const CreateCampaign = () => {
 
   const onSubmit = async (data) => {
     data.imageURI = form.getValues('imageURI');
-    data.goal = Number(data.goal); // Ensure goal is a number
-    data.endsAt = Math.floor(new Date(data.endsAt).getTime() / 1000); // Convert to Unix timestamp
+    data.goal = Number(data.goal);
+    data.endsAt = Math.floor(new Date(data.endsAt).getTime() / 1000);
     console.log(data);
   };
 
@@ -99,9 +99,9 @@ const CreateCampaign = () => {
     <div className="box py-28 grid lg:grid-cols-5 grid-cols-1 gap-6">
       <div className="lg:col-span-3 col-span-1">
         <div className='mb-5'>
-          <h1 className="text-3xl font-bold">Campaign List</h1>
+          <h1 className="text-3xl font-bold">Create Campaign</h1>
           <p className="text-sm text-gray-500 mt-2">
-            Let's start contributing to the campaigns.
+            Start a new campaign to raise funds for your cause.
           </p>
         </div>
         <Form {...form}>
@@ -211,7 +211,7 @@ const CreateCampaign = () => {
             />
             <Button type="submit" disabled={uploading}>
               {uploading ? (
-                <><Loading /> Submitting...</>
+                <><Loading /></>
               ) : 'Submit'}
             </Button>
             {error && <p className="text-red-500">{error.message}</p>}
@@ -222,11 +222,11 @@ const CreateCampaign = () => {
         <div className='mb-5'>
           <h1 className="text-3xl font-bold">Preview</h1>
           <p className="text-sm text-gray-500 mt-2">
-            Preview of the campaign you are creating.
+            Here's how your campaign will look like.
           </p>
         </div>
         <CampaignCard campaign={{
-          title: form.watch('title') || 'Untitled',
+          title: form.watch('title') || 'No Title',
           imageURI: previewImage || 'https://images.unsplash.com/photo-1636390785299-b4df455163dd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
           totalContributions: 0,
           goal: form.watch('goal') || 0,
