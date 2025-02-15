@@ -14,7 +14,6 @@ import ConnectButton from './ConnectButton'
 import { Button } from '@/components/ui/button'
 
 const menuItems = [
-  { to: '/', icon: <House />, label: 'Home' },
   { to: '/campaign', icon: <BadgeDollarSign />, label: 'Campaign' },
   { to: '/new-campaign', icon: <HandCoins />, label: 'My Contributions' },
 ]
@@ -26,7 +25,8 @@ const Navbar = () => {
         <div className="md:hidden">
           <Dropdown/>
         </div>
-        <h1 className='font-[1000] text-lg flex-1 md:flex-none'>DAPP</h1>
+        <Link to="/" className='font-[1000] text-lg flex-1 md:flex-none'>DAPP
+        </Link>
       </div>
       <div className="hidden pl-5 md:flex flex-1 gap-3">
         {menuItems.map((item, index) => (
@@ -36,12 +36,18 @@ const Navbar = () => {
             </span>
           </Link>
         ))}
+        <Link to={'/campaign/create'}>
+          <span className="mx-2 text-sm font-medium">
+            Create Campaign
+          </span>
+        </Link>
       </div>
-      <Link className="" to="/campaign/create">
+      <ConnectButton />
+      {/* <Link className="" to="/campaign/create">
         <Button variant="outline" className="">
           <PlusCircleIcon /> Create Campaign
         </Button>
-      </Link>
+      </Link> */}
     </div>
   )
 }
