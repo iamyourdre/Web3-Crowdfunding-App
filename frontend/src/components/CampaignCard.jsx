@@ -11,10 +11,10 @@ import {
 import { Progress } from "@/components/ui/progress"
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
-import { CircleDollarSign } from 'lucide-react';
 
 export const CampaignCard = ({campaign, className, to}) => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const percentage = (Number(campaign.totalContributions) / Number(campaign.goal)) * 100;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -61,7 +61,7 @@ export const CampaignCard = ({campaign, className, to}) => {
             <p className='text-4xl flex-1'>{campaign.totalContributions.toString()}</p>
             <p className='text-muted-foreground text-sm'>of {campaign.goal.toString()} ETH</p>
           </div>
-          <Progress value={60} className="w-full" />
+          <Progress value={percentage} className="w-full" />
         </CardContent>
         <CardFooter>
           <Button>Contribute</Button>
