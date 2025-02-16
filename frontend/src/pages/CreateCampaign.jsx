@@ -27,7 +27,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { toast } from '@/hooks/use-toast';
+import useCreateCampaign from '@/hooks/useCreateCampaign'; // Import the new hook
 
 const schema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -38,7 +38,6 @@ const schema = z.object({
 });
 
 const CreateCampaign = () => {
-  
   const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(schema),
@@ -47,6 +46,7 @@ const CreateCampaign = () => {
     }
   });
   const { uploadImage, uploading, error, imageUrl } = useImageUpload();
+  const { createCampaign, loading: creatingCampaign } = useCreateCampaign(); // Use the new hook
   const [previewImage, setPreviewImage] = useState('');
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const CreateCampaign = () => {
     data.imageURI = form.getValues('imageURI');
     data.goal = Number(data.goal);
     data.endsAt = Math.floor(new Date(data.endsAt).getTime() / 1000);
-    console.log(data);
+    await createCampaign(data); // Call the createCampaign function
   };
 
   const handleFileChange = async(e) => {
@@ -160,9 +160,9 @@ const CreateCampaign = () => {
               name="goal"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Goal</FormLabel>
+                  <FormLabel>Goal (in Ether)</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="1000" {...field} />
+                    <Input type="text" placeholder="0.05" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -209,8 +209,8 @@ const CreateCampaign = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={uploading}>
-              {uploading ? (
+            <Button type="submit" disabled={uploading || creatingCampaign}>
+              {uploading || creatingCampaign ? (
                 <><Loading /></>
               ) : 'Submit'}
             </Button>
