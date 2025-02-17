@@ -44,7 +44,7 @@ export const CampaignCard = ({campaign, className, to}) => {
   const goal = (Number(campaign.goal) / 10 ** 18);
 
   return (
-    <Link to={to || '#'}>
+    <Link to={'/c/'+campaign.id || '#'} >
       <Card className={`flex flex-col ${className}`}>
         <img src={campaign.imageURI} alt={campaign.title} className="w-full h-48 rounded-t-xl object-cover" />
         <CardHeader className="pb-3 h-full">
@@ -55,7 +55,7 @@ export const CampaignCard = ({campaign, className, to}) => {
                 {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s left
               </span>
             ) : (
-              <span>Campaign ended</span>
+              <span>Campaign Ended</span>
             )}
           </CardDescription>
         </CardHeader>
@@ -67,7 +67,11 @@ export const CampaignCard = ({campaign, className, to}) => {
           <Progress value={percentage} className="w-full" />
         </CardContent>
         <CardFooter>
-          <Button>Contribute</Button>
+          {timeLeft.days !== undefined ? (
+            <Button variant="outline" to={to}>Contribute</Button>
+          ) : (
+            <Button variant="outline" to={to} disabled>Closed</Button>
+          )}
         </CardFooter>
       </Card>
     </Link>

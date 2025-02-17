@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import useCrowdFunding from '../hooks/useCrowdFunding';
+import useFetchCampaigns from '../hooks/useFetchCampaigns';
 
 import { CampaignCard } from './CampaignCard';
 import Loading from './Loading';
 import { Button } from './ui/button';
 
 const CampaignList = () => {
-  const { loading, campaigns } = useCrowdFunding();
+  const { loading, campaigns } = useFetchCampaigns();
   const [visibleCount, setVisibleCount] = useState(3);
 
   if (loading) {
