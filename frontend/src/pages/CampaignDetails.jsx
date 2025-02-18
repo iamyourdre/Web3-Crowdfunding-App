@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useFetchCampaignDetails from '../hooks/useFetchCampaignDetails';
 import { CampaignCard } from '@/components/CampaignCard';
-import { ArchiveX, Info } from 'lucide-react';
 import _404 from './_404';
 import Loading from '@/components/Loading';
+
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 const CampaignDetails = () => {
   const { id } = useParams();
   const { loading, campaignDetails } = useFetchCampaignDetails(id-1);
 
-  if (!loading && !campaignDetails) {
-    return (
-      <_404 />
-    );
-  }
+  const totalContributions = (Number(campaignDetails && campaignDetails.totalContributions) / 10 ** 18);
+  const goal = (Number(campaignDetails && campaignDetails.goal) / 10 ** 18);
+  const percentage = (Number(totalContributions) / Number(goal)) * 100;
 
   return (
     <div className='box py-28'>
@@ -30,15 +38,43 @@ const CampaignDetails = () => {
             </div>
             <div className="lg:col-span-3 col-span-1">
               <div className='mb-5'>
-                <h1 className="text-3xl font-bold">
-                  {campaignDetails.title}
-                </h1>
-                <p className="text-sm text-gray-500 mt-2 flex items-center">
-                  <Info />&nbsp; {campaignDetails.description}
-                </p>
-                <p className="text-sm text-gray-500 mt-2 flex items-center">
-                  Goals: {campaignDetails.description}
-                </p>
+                <Table className="w-full">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead colSpan={2}>
+                        Campaign Details
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="font-medium">Title</TableCell>
+                      <TableCell>{campaignDetails.title}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Description</TableCell>
+                      <TableCell>{campaignDetails.description}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Ended At</TableCell>
+                      <TableCell>
+                        {new Date(Number(campaignDetails.endsAt) * 1000).toLocaleString()}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Collected</TableCell>
+                      <TableCell>
+                        {totalContributions} ETH
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TableCell>Goals</TableCell>
+                      <TableCell>{goal} ETH ({percentage}%)</TableCell>
+                    </TableRow>
+                  </TableFooter>
+                </Table>
               </div>
             </div>
           </div>

@@ -68,9 +68,9 @@ export const CampaignCard = ({campaign, className, to}) => {
         </CardContent>
         <CardFooter>
           {timeLeft.days !== undefined ? (
-            <Button variant="outline" to={to}>Contribute</Button>
+            <Button to={to} className="w-full">Contribute</Button>
           ) : (
-            <Button variant="outline" to={to} disabled>Closed</Button>
+            <Button variant="outline" to={to} className="w-full" disabled>Closed</Button>
           )}
         </CardFooter>
       </Card>
