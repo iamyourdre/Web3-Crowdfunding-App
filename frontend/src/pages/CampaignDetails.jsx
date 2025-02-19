@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import useFetchCampaignDetails from '../hooks/useFetchCampaignDetails';
 import { CampaignCard } from '@/components/CampaignCard';
 import _404 from './_404';
@@ -23,6 +23,8 @@ const CampaignDetails = () => {
   const totalContributions = (Number(campaignDetails && campaignDetails.totalContributions) / 10 ** 18);
   const goal = (Number(campaignDetails && campaignDetails.goal) / 10 ** 18);
   const percentage = (Number(totalContributions) / Number(goal)) * 100;
+
+  console.log(campaignDetails);
 
   return (
     <div className='box py-28'>
@@ -56,6 +58,14 @@ const CampaignDetails = () => {
                       <TableCell>{campaignDetails.description}</TableCell>
                     </TableRow>
                     <TableRow>
+                      <TableCell className="font-medium">Creator</TableCell>
+                      <TableCell>
+                        <Link className='underline text-blue-500' target="_blank" to={`https://sepolia.etherscan.io/address/${campaignDetails.campaignCreator}`}>
+                          {campaignDetails.campaignCreator.slice(0,5)+"..."+campaignDetails.campaignCreator.slice(-4)}
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
                       <TableCell className="font-medium">Ended At</TableCell>
                       <TableCell>
                         {new Date(Number(campaignDetails.endsAt) * 1000).toLocaleString()}
@@ -67,11 +77,15 @@ const CampaignDetails = () => {
                         {totalContributions} ETH
                       </TableCell>
                     </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Goals</TableCell>
+                      <TableCell>{goal} ETH</TableCell>
+                    </TableRow>
                   </TableBody>
                   <TableFooter>
                     <TableRow>
-                      <TableCell>Goals</TableCell>
-                      <TableCell>{goal} ETH ({percentage}%)</TableCell>
+                      <TableCell>Progress</TableCell>
+                      <TableCell>{percentage}%</TableCell>
                     </TableRow>
                   </TableFooter>
                 </Table>
