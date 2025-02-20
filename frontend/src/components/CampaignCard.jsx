@@ -64,7 +64,7 @@ export const CampaignCard = ({campaign, className, to}) => {
             <p className='text-4xl flex-1'>{(totalContributions)}</p>
             <p className='text-muted-foreground text-sm'>of {goal} ETH</p>
           </div>
-          <Progress value={percentage} className="w-full" />
+          <Progress value={percentage < 100 ? percentage : 100} className="w-full" />
         </CardContent>
         <CardFooter>
           {timeLeft.days !== undefined ? (
