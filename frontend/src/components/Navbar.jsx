@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button'
 
 const menuItems = [
   { to: '/campaign', icon: <BadgeDollarSign />, label: 'Campaign' },
-  { to: '/new-campaign', icon: <HandCoins />, label: 'My Contributions' },
+  { to: '/me', icon: <HandCoins />, label: 'My Contributions' },
 ]
 
 const Navbar = () => {
