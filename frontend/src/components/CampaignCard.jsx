@@ -11,6 +11,7 @@ import {
 import { Progress } from "@/components/ui/progress"
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
+import ContributeDrawer from './ContributeDrawer';
 
 export const CampaignCard = ({campaign, className, to}) => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -68,9 +69,9 @@ export const CampaignCard = ({campaign, className, to}) => {
         </CardContent>
         <CardFooter>
           {timeLeft.days !== undefined ? (
-            <Button to={to} className="w-full">Contribute</Button>
+            <ContributeDrawer />
           ) : (
-            <Button variant="outline" to={to} className="w-full" disabled>Closed</Button>
+            <Button variant="outline" className="w-full" disabled>Closed</Button>
           )}
         </CardFooter>
       </Card>
