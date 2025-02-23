@@ -22,7 +22,7 @@ const useCreateCampaign = () => {
 
     setLoading(true);
     try {
-      const goalInWei = Web3.utils.toWei(0.05, 'ether');
+      const goalInWei = Web3.utils.toWei(data.goal, 'ether');
       const prepare = contract.methods.createCampaign(
         data.title,
         data.description,
