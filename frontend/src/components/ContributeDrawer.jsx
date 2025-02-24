@@ -24,13 +24,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import useWallet from '@/hooks/useWallet'
 import ConnectButton from './ConnectButton'
+import useContribute from '@/hooks/useContribute'
 
 const ContributeDrawer = () => {
   const [open, setOpen] = React.useState(false)
   const isDesktop = useMediaQuery("(min-width: 768px)")
-
-  console.log("isDesktop:", isDesktop)
-  console.log("open:", open)
 
   if (isDesktop) {
     return (
@@ -75,15 +73,23 @@ const ContributeDrawer = () => {
 }
 
 function ProfileForm({ className }) {
-  const {wallet} = useWallet();
+  const { wallet } = useWallet();
+  const { contribute, loading } = useContribute();
   const handleInput = (event) => {
     const value = event.target.value;
     if (!/^\d*\.?\d*$/.test(value)) {
       event.target.value = value.slice(0, -1);
     }
   };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const amount = event.target.elements.value.value;
+    await contribute(amount);
+  };
+
   return (
-    <form className={cn("grid items-start gap-4", className)}>
+    <form className={cn("grid items-start gap-4", className)} onSubmit={handleSubmit}>
       <div className="grid gap-2">
         <Label htmlFor="value">
           ETH
@@ -98,7 +104,9 @@ function ProfileForm({ className }) {
         />
       </div>
       {wallet ? (
-        <Button type="submit">Send Contribution</Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? 'Sending...' : 'Send Contribution'}
+        </Button>
       ) : (
         <ConnectButton/>
       )}

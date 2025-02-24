@@ -3,6 +3,8 @@ import { ContractContext } from '../contexts/ContractProvider';
 import { WalletContext } from '../contexts/WalletProvider';
 import { useToast } from './use-toast';
 import Web3 from 'web3';
+import { CircleCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const useCreateCampaign = () => {
   const { contract } = useContext(ContractContext);
@@ -30,13 +32,24 @@ const useCreateCampaign = () => {
         goalInWei,
         data.endsAt
       );
-      console.log("prepare", prepare.arguments);
-      await prepare.send({ from: wallet });
+      const result = await prepare.send({ from: wallet });
+
+      console.log('Transaction result:', result);
 
       toast({
-        title: "Success!",
-        description: "Campaign created successfully.",
-        variant: "success",
+        title: (
+          <div className="flex items-center gap-1">
+            <CircleCheck className="text-teal-500" /> Success!
+          </div>
+        ),
+        description: (
+          <>
+            Campaign created successfully.{" "}
+            <Link to={'/c/'+(result.events.CampaignCreated.returnValues.campaignId).toString()} className="underline font-bold">
+              View campaign.
+            </Link>
+          </>
+        ),
       });
     } catch (error) {
       console.error('Error creating campaign:', error);

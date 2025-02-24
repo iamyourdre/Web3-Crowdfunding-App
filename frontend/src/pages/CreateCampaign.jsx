@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import useCreateCampaign from '@/hooks/useCreateCampaign'; // Import the new hook
+import Web3 from 'web3';
 
 const schema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -146,7 +147,7 @@ const CreateCampaign = () => {
                     </FormLabel>
                     <div className="flex items-center space-x-2">
                       <FormControl>
-                        <Input placeholder="Image URL" {...field} value="https://images.unsplash.com/photo-1636390785299-b4df455163dd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+                        <Input placeholder="Image URL" {...field} />
                       </FormControl>
                     </div>
                     <FormMessage />
@@ -173,7 +174,7 @@ const CreateCampaign = () => {
               name="endsAt"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>End Date</FormLabel>
+                  <FormLabel>Open Until</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -205,6 +206,7 @@ const CreateCampaign = () => {
                       />
                     </PopoverContent>
                   </Popover>
+                  <FormLabel className="text-muted-foreground text-xs">Campaign will closed after 23.59 on picked date</FormLabel>
                   <FormMessage />
                 </FormItem>
               )}
@@ -229,7 +231,7 @@ const CreateCampaign = () => {
           title: form.watch('title') || 'No Title',
           imageURI: previewImage || 'https://images.unsplash.com/photo-1636390785299-b4df455163dd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
           totalContributions: 0,
-          goal: form.watch('goal') || 0,
+          goal: Web3.utils.toWei(form.watch('goal') || 0, 'ether'),
           endsAt: form.watch('endsAt') ? Math.floor(new Date(form.watch('endsAt')).getTime() / 1000) : 2398352399,
         }} to="#"/>
       </div>
