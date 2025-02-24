@@ -17,11 +17,6 @@ import Loading from './Loading';
 
 const ConnectButton = () => {
   const { connectMetamask, disconnectWallet, loading, wallet, etherBalance } = useWallet();
-  useEffect(() => {
-    if (wallet) {
-      console.log(wallet);
-    }
-  }, [wallet]);
 
   return (
     <>

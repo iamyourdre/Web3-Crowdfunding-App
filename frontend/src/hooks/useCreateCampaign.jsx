@@ -34,8 +34,6 @@ const useCreateCampaign = () => {
       );
       const result = await prepare.send({ from: wallet });
 
-      console.log('Transaction result:', result);
-
       toast({
         title: (
           <div className="flex items-center gap-1">

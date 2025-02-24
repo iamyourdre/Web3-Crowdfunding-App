@@ -68,7 +68,6 @@ const CreateCampaign = () => {
       const file = e.target.files[0];
       setPreviewImage(URL.createObjectURL(file));
       await uploadImage(file).then((res) => {
-        console.log(res);
         if(res.status === 200) {
           form.setValue('imageURI', res.data.data.url);
           toast({

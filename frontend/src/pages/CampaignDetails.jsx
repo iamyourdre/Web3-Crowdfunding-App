@@ -24,8 +24,6 @@ const CampaignDetails = () => {
   const goal = (Number(campaignDetails && campaignDetails.goal) / 10 ** 18);
   const percentage = (Number(totalContributions) / Number(goal)) * 100;
 
-  console.log(campaignDetails);
-
   return (
     <div className='box py-28'>
       {loading ? (
