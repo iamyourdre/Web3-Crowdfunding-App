@@ -44,7 +44,7 @@ const useCreateCampaign = () => {
           <>
             Campaign created successfully.{" "}
             <Link to={'/c/'+(result.events.CampaignCreated.returnValues.campaignId).toString()} className="underline font-bold">
-              View campaign.
+              View campaign
             </Link>
           </>
         ),
@@ -53,7 +53,7 @@ const useCreateCampaign = () => {
       console.error('Error creating campaign:', error);
       toast({
         title: "Uh oh!",
-        description: "Failed to create campaign. Please try again later.",
+        description: "Failed to create campaign. Please try again later",
         variant: "destructive",
       });
     } finally {

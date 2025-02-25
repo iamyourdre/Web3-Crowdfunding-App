@@ -17,7 +17,7 @@ const useFetchCampaigns = () => {
       console.error(error);
       toast({
         title: "Uh oh!",
-        description: "An error occurred while fetching campaigns.",
+        description: "An error occurred while fetching campaigns",
         variant: "destructive",
       });
     } finally {
