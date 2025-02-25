@@ -14,7 +14,7 @@ import ContributeDrawer from './ContributeDrawer';
 import TimeLeft from './TimeLeft';
 
 export const CampaignCard = ({ campaign, className, to }) => {
-  const [timeLeft, setTimeLeft] = useState({});
+  const [difference, setDifference] = useState(0);
   const percentage = (Number(campaign.totalContributions) / Number(campaign.goal)) * 100;
   const totalContributions = (Number(campaign.totalContributions) / 10 ** 18);
   const goal = (Number(campaign.goal) / 10 ** 18);
@@ -25,7 +25,7 @@ export const CampaignCard = ({ campaign, className, to }) => {
         <img src={campaign.imageURI} alt={campaign.title} className="w-full h-48 rounded-t-xl object-cover" />
         <CardHeader className="pb-3 h-full">
           <CardTitle className="text-xl">{campaign.title}</CardTitle>
-          <TimeLeft endsAt={campaign.endsAt} onTimeLeftChange={setTimeLeft} />
+          <TimeLeft endsAt={campaign.endsAt}/>
         </CardHeader>
         <CardContent className="flex flex-col gap-2">
           <div className="flex items-end">
@@ -35,7 +35,7 @@ export const CampaignCard = ({ campaign, className, to }) => {
           <Progress value={percentage < 100 ? percentage : 100} className="w-full" />
         </CardContent>
         <CardFooter>
-          {timeLeft.days !== undefined ? (
+          {Number(campaign.endsAt) * 1000 - new Date().getTime() > 0 ? (
             <ContributeDrawer />
           ) : (
             <Button variant="outline" className="w-full" disabled>Closed</Button>

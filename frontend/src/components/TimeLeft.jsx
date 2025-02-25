@@ -1,28 +1,27 @@
 import React, { useEffect, useState } from 'react';
 
-const TimeLeft = ({ endsAt, onTimeLeftChange }) => {
+const TimeLeft = ({ endsAt }) => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
     const timer = setInterval(() => {
       const newTimeLeft = calculateTimeLeft();
       setTimeLeft(newTimeLeft);
-      onTimeLeftChange(newTimeLeft);
     }, 1000);
 
     return () => clearInterval(timer);
   }, [endsAt]);
 
   function calculateTimeLeft() {
-    const difference = Number(endsAt) * 1000 - new Date().getTime();
+    const diff = Number(endsAt) * 1000 - new Date().getTime();
     let timeLeft = {};
 
-    if (difference > 0) {
+    if (diff > 0) {
       timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60)
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / 1000 / 60) % 60),
+        seconds: Math.floor((diff / 1000) % 60)
       };
     }
 
