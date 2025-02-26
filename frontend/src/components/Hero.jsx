@@ -3,6 +3,7 @@ import heroBg from '../assets/grainy-blur.png';
 import heroImg1 from '../assets/3d-glassy-abstract-robot-hand-with-science-symbol.png';
 import { Button } from './ui/button';
 import { Github } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   return (
@@ -35,9 +36,11 @@ const Hero = () => {
             Join us in revolutionizing the way projects are funded. Connect your wallet and start supporting innovative ideas today!
           </p>
           <div className="flex gap-2">
-            <Button className="bg-gradient-to-r from-purple-600 to-pink-400 text-foreground to-90% px-14 py-6">
-              Get Started
-            </Button>
+            <Link to="/campaign">
+              <Button className="bg-gradient-to-r from-purple-600 to-pink-400 text-foreground to-90% px-14 py-6">
+                Get Started
+              </Button>
+            </Link>
             <Button className="py-6" variant="outline">
               <Github /> Github
             </Button>
