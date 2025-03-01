@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import Web3 from 'web3';
-import CrowdFundingABI from '../abi/CrowdFunding.json';
+import CrowdFundingABI from '../abi/CrowdFundingV2.json';
 
 export const ContractContext = createContext();
 
@@ -16,7 +16,7 @@ export const ContractProvider = ({ children }) => {
         setWeb3(web3Instance);
         const contractInstance = new web3Instance.eth.Contract(
           CrowdFundingABI.abi,
-          '0x22e3781A7F0A97368675B6f3C9cB976d499D54fE'
+          '0x29f5419bFaC3341737F571944a5200c3eC8662bC'
         );
         setContract(contractInstance);
       } catch (error) {

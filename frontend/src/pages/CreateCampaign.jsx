@@ -34,7 +34,7 @@ const schema = z.object({
   title: z.string().min(1, 'Title is required'),
   description: z.string().min(1, 'Description is required'),
   imageURI: z.string().url('Invalid URL'),
-  goal: z.string().regex(/^\d+(\.\d+)?$/, 'Goal must be a valid number'),
+  goal: z.string(),
   endsAt: z.date().refine(date => date > new Date(), 'End date must be in the future')
 });
 
@@ -59,8 +59,9 @@ const CreateCampaign = () => {
   const onSubmit = async (data) => {
     data.imageURI = form.getValues('imageURI');
     data.goal = Number(data.goal);
+    data.startsAt = Math.floor(new Date().getTime() / 1000);
     data.endsAt = Math.floor(new Date(data.endsAt).getTime() / 1000);
-    await createCampaign(data); // Call the createCampaign function
+    await createCampaign(data.title, data.description, data.imageURI, data.goal, data.startsAt, data.endsAt);
   };
 
   const handleFileChange = async(e) => {
@@ -162,7 +163,7 @@ const CreateCampaign = () => {
                 <FormItem>
                   <FormLabel>Goal (in Ether)</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="0.05" {...field} />
+                    <Input type="number" step="0.01" placeholder="0.05" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

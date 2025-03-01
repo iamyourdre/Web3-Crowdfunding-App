@@ -1,8 +1,6 @@
-// contracts/Crowdfunding.sol
-// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract CrowdFunding {
+contract CrowdFundingV2 {
     // Address of the contract owner
     address private immutable owner;
 
@@ -33,25 +31,17 @@ contract CrowdFunding {
         uint goal;
         uint startsAt;
         uint endsAt;
-        STATUS status;
+        bool isSuccessful;
         uint totalContributions;
         address[] contributors;
         uint[] contributionAmounts;
     }
 
-    // Enum representing the status of a campaign
-    enum STATUS {
-        ACTIVE,
-        DELETED,
-        SUCCESSFUL,
-        UNSUCCEEDED
-    }
-
     // Events to log important activities
-    event CampaignCreated(uint indexed campaignId, address campaignCreator, string title, STATUS status);
-    event CampaignDeleted(uint indexed campaignId, address campaignCreator, STATUS status);
+    event CampaignCreated(uint indexed campaignId, address campaignCreator, string title);
     event ContributionMade(uint indexed campaignId, address contributor, uint amount);
-    event RefundMade(uint indexed campaignId, address contributor, uint amount);
+    event FundsClaimed(uint indexed campaignId, address claimant, uint amount);
+    event Debug(string message);
 
     // Contract constructor
     constructor() {
@@ -70,8 +60,9 @@ contract CrowdFunding {
         string memory description,
         string memory imageURI,
         uint goal,
+        uint startsAt,
         uint endsAt
-    ) public {
+    ) public payable {
         // Validation checks for input parameters
         require(bytes(title).length > 0, 'Title must not be empty');
         require(bytes(description).length > 0, 'Description must not be empty');
@@ -87,16 +78,16 @@ contract CrowdFunding {
             description,
             imageURI,
             goal,
-            block.timestamp,
+            startsAt,
             endsAt,
-            STATUS.ACTIVE,
+            false,
             0,
             new address[](0),
             new uint[](0)
         ));
 
         // Emit an event to log the creation of the campaign
-        emit CampaignCreated(nextId - 1, msg.sender, title, STATUS.ACTIVE);
+        emit CampaignCreated(nextId - 1, msg.sender, title);
     }
 
     // Function to allow contributors to contribute funds to a campaign
@@ -106,6 +97,8 @@ contract CrowdFunding {
 
         // Validation check for contribution amount
         require(msg.value > 0, 'Contribution amount must be greater than zero');
+        require(block.timestamp >= campaign.startsAt && block.timestamp <= campaign.endsAt, 'Campaign is not active');
+        require(campaign.startsAt < campaign.endsAt, 'Invalid campaign period');
 
         // Calculate the remaining funds needed to reach the campaign goal
         uint remainingFundsNeeded = campaign.goal - campaign.totalContributions;
@@ -126,7 +119,7 @@ contract CrowdFunding {
 
             // Mark the campaign as successful if the goal is reached
             if (campaign.totalContributions >= campaign.goal) {
-                campaign.status = STATUS.SUCCESSFUL;
+                campaign.isSuccessful = true;
             }
         }
 
@@ -138,40 +131,30 @@ contract CrowdFunding {
         emit ContributionMade(campaignId, msg.sender, msg.value);
     }
 
-    // Function to allow the campaign creator to delete a campaign
-    function deleteCampaign(uint campaignId) public {
-        // Retrieve the campaign based on the campaign ID
-        Campaign storage campaign = campaigns[campaignId];
-
-        // Validation check: Only the campaign creator can delete the campaign
-        require(campaign.campaignCreator == msg.sender);
-
-        // Refund contributors when the campaign is deleted
-        refund(campaignId);
-
-        // Mark the campaign as deleted
-        campaign.status = STATUS.DELETED;
-
-        // Emit an event to log the deletion of the campaign
-        emit CampaignDeleted(campaignId, msg.sender, STATUS.DELETED);
+    receive() external payable {
+        // Emit an event to log the received funds
+        emit Debug("Funds received");
     }
-
-    // Internal function to refund contributions when a campaign is deleted
-    function refund(uint campaignId) internal {
+    
+    function claim(uint campaignId) public nonReentrant {
         // Retrieve the campaign based on the campaign ID
         Campaign storage campaign = campaigns[campaignId];
 
-        // Iterate through contributors and refund their contributions
-        for (uint i = 0; i < campaign.contributors.length; i++) {
-            address contributor = campaign.contributors[i];
-            uint contributionAmount = campaign.contributionAmounts[i];
+        // Validation check: Only the contract owner or campaign creator can claim the funds
+        require(msg.sender == owner || msg.sender == campaign.campaignCreator, "Only the owner or campaign creator can claim the funds");
+        require(msg.sender == owner || campaign.totalContributions >= campaign.goal, "Campaign goal not reached");
 
-            // Refund the contribution amount to the contributor
-            payable(contributor).transfer(contributionAmount);
+        // Transfer the funds to the claimant
+        uint amount = campaign.totalContributions;
+        campaign.totalContributions = 0;
+        uint devFee = 0.005 ether;
+        uint claimantAmount = amount - devFee;
 
-            // Update the total contributions
-            campaign.totalContributions -= contributionAmount;
-        }
+        // Emit an event to log the claim
+        emit FundsClaimed(campaignId, msg.sender, claimantAmount);
+
+        // Transfer the remaining amount from the contract's balance to the claimant's address
+        payable(msg.sender).transfer(claimantAmount);
     }
 
     // Function to retrieve information about all campaigns
@@ -189,7 +172,7 @@ contract CrowdFunding {
         uint goal,
         uint startsAt,
         uint endsAt,
-        STATUS status,
+        bool isSuccessful,
         uint totalContributions,
         address[] memory contributors,
         uint[] memory contributionAmounts
@@ -204,7 +187,7 @@ contract CrowdFunding {
             campaign.goal,
             campaign.startsAt,
             campaign.endsAt,
-            campaign.status,
+            campaign.isSuccessful,
             campaign.totalContributions,
             campaign.contributors,
             campaign.contributionAmounts
@@ -236,7 +219,6 @@ contract CrowdFunding {
         for (uint i = 0; i < latestCampaignsCount; i++) {
             latestCampaigns[i] = campaigns[campaigns.length - 1 - i];
         }
-
         return latestCampaigns;
     }
 }

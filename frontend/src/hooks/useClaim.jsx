@@ -2,17 +2,15 @@ import { useContext, useState } from 'react';
 import { ContractContext } from '../contexts/ContractProvider';
 import { WalletContext } from '../contexts/WalletProvider';
 import { useToast } from './use-toast';
-import Web3 from 'web3';
 import { CircleCheck } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
-const useCreateCampaign = () => {
+const useClaim = () => {
   const { contract } = useContext(ContractContext);
   const { wallet } = useContext(WalletContext);
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
 
-  const createCampaign = async (title, description, imageURI, goal, startsAt, endsAt) => {
+  const claim = async (campaignId) => {
     if (!contract || !wallet) {
       toast({
         title: "Uh oh!",
@@ -21,40 +19,25 @@ const useCreateCampaign = () => {
       });
       return;
     }
-  
+
     setLoading(true);
     try {
-      const goalInWei = Web3.utils.toWei(goal.toString(), 'ether');
-      const prepare = contract.methods.createCampaign(
-        title,
-        description,
-        imageURI,
-        goalInWei,
-        startsAt,
-        endsAt
-      );
+      const prepare = contract.methods.claimV2(campaignId);
       const result = await prepare.send({ from: wallet });
-  
+
       toast({
         title: (
           <div className="flex items-center gap-1">
             <CircleCheck className="text-teal-500" /> Success!
           </div>
         ),
-        description: (
-          <>
-            Campaign created successfully.{" "}
-            <Link to={'/c/'+(result.events.CampaignCreated.returnValues.campaignId).toString()} className="underline font-bold">
-              View campaign
-            </Link>
-          </>
-        ),
+        description: "Funds claimed successfully.",
       });
     } catch (error) {
-      console.error('Error creating campaign:', error);
+      console.error('Error claiming funds:', error);
       toast({
         title: "Uh oh!",
-        description: "Failed to create campaign. Please try again later",
+        description: "Failed to claim funds. Please try again later.",
         variant: "destructive",
       });
     } finally {
@@ -62,7 +45,7 @@ const useCreateCampaign = () => {
     }
   };
 
-  return { createCampaign, loading };
+  return { claim, loading };
 };
 
-export default useCreateCampaign;
+export default useClaim;

@@ -42,7 +42,7 @@ The smart contract for this project is written in Solidity and deployed on the E
 
 ## Deployment
 
-The application is deployed on Vercel. You can access the demo [here](https://web3-crowdfunding-dre.vercel.app/campaign). Btw, please make sure you are using Testnet Sepolia Network.
+The application is deployed on Vercel. You can access the demo [here](https://web3-crowdfunding-dre.vercel.app). Btw, please make sure you are using Testnet Sepolia Network.
 
 ## References
 

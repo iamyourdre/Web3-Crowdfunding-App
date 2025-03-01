@@ -12,7 +12,7 @@ const useFetchCampaigns = () => {
     setLoading(true);
     try {
       const campaigns = await contract.methods.getAllCampaigns().call();
-      setCampaigns(campaigns);
+      setCampaigns(campaigns.reverse());
     } catch (error) {
       console.error(error);
       toast({

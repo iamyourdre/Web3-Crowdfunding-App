@@ -30,6 +30,11 @@ const CampaignList = () => {
           <Button onClick={loadMore} variant="outline" size="lg">Load More</Button>
         </div>
       )}
+      {campaigns.length === 0 && (
+        <div className="text-gray-500">
+          (No campaigns found)
+      </div>
+      )}
     </>
   )
 };
