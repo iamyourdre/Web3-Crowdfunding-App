@@ -2,8 +2,8 @@
 
 This project is a decentralized crowdfunding platform built on the Ethereum blockchain. It allows users to create, manage, and contribute to crowdfunding campaigns using smart contracts.
 
-![Preview](folder/gambar.png)
-![Preview](folder/gambar.png)
+![Preview](https://github.com/iamyourdre/Web3-Crowdfunding-App/blob/main/preview1.png)
+![Preview](https://github.com/iamyourdre/Web3-Crowdfunding-App/blob/main/preview2.png)
 
 
 ## Features
